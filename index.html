@@ -1,357 +1,411 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.2">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #3874c0; -webkit-text-stroke: #3874c0}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #7cc8fd; -webkit-text-stroke: #7cc8fd}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #b36a52; -webkit-text-stroke: #b36a52}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #bebebe; -webkit-text-stroke: #bebebe}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #5a6065; -webkit-text-stroke: #5a6065}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #bebebe; -webkit-text-stroke: #bebebe; min-height: 16.0px}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #61b670; -webkit-text-stroke: #61b670}
-    span.s1 {font-kerning: none; background-color: #121313}
-    span.s2 {font-kerning: none; color: #7cc8fd; background-color: #121313; -webkit-text-stroke: 0px #7cc8fd}
-    span.s3 {font-kerning: none; color: #5a5a5a; background-color: #121313; -webkit-text-stroke: 0px #5a5a5a}
-    span.s4 {font-kerning: none; color: #bebebe; background-color: #121313; -webkit-text-stroke: 0px #bebebe}
-    span.s5 {font-kerning: none; color: #b36a52; background-color: #121313; -webkit-text-stroke: 0px #b36a52}
-    span.s6 {font-kerning: none; color: #3874c0; background-color: #121313; -webkit-text-stroke: 0px #3874c0}
-    span.s7 {font-kerning: none; color: #cacaca; background-color: #121313; -webkit-text-stroke: 0px #cacaca}
-    span.s8 {font-kerning: none; color: #97bb86; background-color: #121313; -webkit-text-stroke: 0px #97bb86}
-    span.s9 {font-kerning: none}
-    span.s10 {font-kerning: none; color: #61b670; background-color: #121313; -webkit-text-stroke: 0px #61b670}
-    span.s11 {font: 14.0px 'Apple Symbols'; font-kerning: none; background-color: #121313}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edward Hein - The Technomancer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@300;400;600&family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --bg: #0d1117;
+            --slide-bg: #010409;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --blue: #58a6ff;
+        }
+
+        * { box-sizing: border-box; }
+        
+        body, html { 
+            margin: 0; padding: 0; 
+            width: 100vw; height: 100vh;
+            background-color: var(--bg);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+        }
+
+        /* Main Presentation Wrapper */
+        #presentation-root {
+            width: 1280px; height: 720px;
+            max-width: 100vw; max-height: 100vh;
+            position: relative;
+            background-color: var(--slide-bg);
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+        }
+
+        /* Individual Slide Logic */
+        .slide {
+            position: absolute; inset: 0;
+            padding: 80px 60px 60px 60px;
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .slide.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Terminal Bar Overlay */
+        .terminal-bar {
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 40px; background: #1c1917;
+            color: var(--gold); font-family: 'Fira Code', monospace;
+            font-size: 14px; padding: 10px 20px;
+            border-bottom: 2px solid var(--gold);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
+        }
+
+        /* UI Elements */
+        .d20-marker {
+            position: absolute; bottom: 30px; right: 30px;
+            font-family: 'MedievalSharp'; color: var(--gold);
+            font-size: 24px; opacity: 0.6; display: flex; align-items: center; gap: 10px;
+        }
+
+        /* Navigation Buttons for Canva */
+        .nav-controls {
+            position: absolute; bottom: 20px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: 20px; z-index: 100;
+        }
+        .nav-btn {
+            background: rgba(28, 25, 23, 0.8);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Fira Code', monospace;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { background: var(--gold); color: #000; }
+
+        /* Typography */
+        h1 { font-family: 'MedievalSharp', cursive; font-size: 80px; color: var(--gold); margin: 0; }
+        .slide-title { 
+            font-family: 'Fira Code', monospace; font-size: 36px; 
+            margin-bottom: 30px; color: #79c0ff; 
+            border-left: 5px solid var(--gold); padding-left: 20px; 
+        }
+        p, li { font-size: 22px; line-height: 1.6; color: #8b949e; }
+        
+        .keyword { color: #ff7b72; }
+        .string { color: #3fb950; }
+        .comment { color: #6e7681; font-style: italic; }
+
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        
+        .image-wrapper { 
+            border: 1px solid var(--border); border-radius: 12px; overflow: hidden; 
+            height: 380px; background: #0d1117;
+        }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .tile { background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid var(--border); }
+        .tile h3 { font-family: 'MedievalSharp'; color: var(--gold); margin-top: 0; }
+
+        .big-number { font-size: 120px; font-family: 'Fira Code'; color: var(--gold); line-height: 1; }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE</span><span class="s2"> html</span><span class="s1">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">html</span><span class="s4"> </span><span class="s2">lang</span><span class="s3">=</span><span class="s5">"en"</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s1">charset</span><span class="s3">=</span><span class="s5">"UTF-8"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s2">name</span><span class="s3">=</span><span class="s1">"viewport"</span><span class="s4"> </span><span class="s2">content</span><span class="s3">=</span><span class="s1">"width=device-width, initial-scale=1.0"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">title</span><span class="s3">&gt;</span><span class="s1">Edward Hein - The Technomancer (20 Page Edition)</span><span class="s3">&lt;/</span><span class="s6">title</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">link</span><span class="s4"> </span><span class="s2">rel</span><span class="s3">=</span><span class="s1">"preconnect"</span><span class="s4"> </span><span class="s2">href</span><span class="s3">=</span><span class="s1">"https://fonts.googleapis.com"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">link</span><span class="s4"> </span><span class="s2">rel</span><span class="s3">=</span><span class="s1">"preconnect"</span><span class="s4"> </span><span class="s2">href</span><span class="s3">=</span><span class="s1">"https://fonts.gstatic.com"</span><span class="s4"> </span><span class="s2">crossorigin</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">link</span><span class="s4"> </span><span class="s2">href</span><span class="s3">=</span><span class="s1">"https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&amp;family=Inter:wght@300;400;600&amp;family=MedievalSharp&amp;display=swap"</span><span class="s4"> </span><span class="s2">rel</span><span class="s3">=</span><span class="s1">"stylesheet"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">link</span><span class="s4"> </span><span class="s2">rel</span><span class="s3">=</span><span class="s1">"stylesheet"</span><span class="s4"> </span><span class="s2">href</span><span class="s3">=</span><span class="s1">"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">/* CSS SETUP */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">*</span><span class="s1"> </span><span class="s7">{</span><span class="s1"> </span><span class="s2">box-sizing:</span><span class="s1"> </span><span class="s5">border-box</span><span class="s7">;</span><span class="s1"> </span><span class="s7">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">body</span><span class="s1"> </span><span class="s7">{</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background-color:</span><span class="s1"> #0d1117</span><span class="s7">;</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin:</span><span class="s1"> </span><span class="s8">0</span><span class="s7">;</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding:</span><span class="s1"> </span><span class="s8">40px</span><span class="s1"> </span><span class="s8">0</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s5">flex</span><span class="s7">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">flex-direction:</span><span class="s4"> </span><span class="s5">column</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">align-items:</span><span class="s1"> </span><span class="s5">center</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">gap:</span><span class="s1"> </span><span class="s8">40px</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> #c9d1d9</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.slide-container</span><span class="s4"> </span><span class="s7">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width:</span><span class="s1"> </span><span class="s8">1280px</span><span class="s7">;</span><span class="s1"> </span><span class="s2">height:</span><span class="s1"> </span><span class="s8">720px</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background-color:</span><span class="s1"> #010409</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s8">1px</span><span class="s1"> </span><span class="s5">solid</span><span class="s1"> #30363d</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">box-shadow:</span><span class="s1"> </span><span class="s8">0</span><span class="s1"> </span><span class="s8">20px</span><span class="s1"> </span><span class="s8">50px</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s8">0</span><span class="s7">,</span><span class="s1"> </span><span class="s8">0</span><span class="s7">,</span><span class="s1"> </span><span class="s8">0</span><span class="s7">,</span><span class="s1"> </span><span class="s8">0.7</span><span class="s5">)</span><span class="s7">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">display:</span><span class="s4"> </span><span class="s5">flex</span><span class="s7">;</span><span class="s4"> </span><span class="s1">flex-direction:</span><span class="s4"> </span><span class="s5">column</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family:</span><span class="s1"> </span><span class="s10">'Inter'</span><span class="s7">,</span><span class="s1"> </span><span class="s5">sans-serif</span><span class="s7">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">overflow:</span><span class="s4"> </span><span class="s5">hidden</span><span class="s7">;</span><span class="s4"> </span><span class="s1">padding:</span><span class="s4"> </span><span class="s8">60px</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">position:</span><span class="s1"> </span><span class="s5">relative</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">flex-shrink:</span><span class="s1"> </span><span class="s8">0</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">/* Terminal Bar */</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.slide-container::before</span><span class="s4"> </span><span class="s7">{</span></p>
-<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">content:</span><span class="s4"> </span><span class="s1">'</span><span class="s11">ᚱᚢᚾ</span><span class="s1"> — edward_hein.sh — PAGE_'</span><span class="s4"> </span><span class="s5">attr(data-page)</span><span class="s7">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">position:</span><span class="s4"> </span><span class="s5">absolute</span><span class="s7">;</span><span class="s4"> </span><span class="s1">top:</span><span class="s4"> </span><span class="s8">0</span><span class="s7">;</span><span class="s4"> </span><span class="s1">left:</span><span class="s4"> </span><span class="s8">0</span><span class="s7">;</span><span class="s4"> </span><span class="s1">right:</span><span class="s4"> </span><span class="s8">0</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">height:</span><span class="s1"> </span><span class="s8">35px</span><span class="s7">;</span><span class="s1"> </span><span class="s2">background:</span><span class="s1"> #1c1917</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color:</span><span class="s1"> #d4af37</span><span class="s7">;</span><span class="s1"> </span><span class="s2">font-family:</span><span class="s1"> </span><span class="s10">'Fira Code'</span><span class="s7">,</span><span class="s1"> </span><span class="s5">monospace</span><span class="s7">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">font-size:</span><span class="s4"> </span><span class="s8">14px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">padding:</span><span class="s4"> </span><span class="s8">8px</span><span class="s4"> </span><span class="s8">20px</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-bottom:</span><span class="s1"> </span><span class="s8">2px</span><span class="s1"> </span><span class="s5">solid</span><span class="s1"> #d4af37</span><span class="s7">;</span><span class="s1"> </span><span class="s2">z-index:</span><span class="s1"> </span><span class="s8">10</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">/* D20 Watermark */</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.d20-marker</span><span class="s4"> </span><span class="s7">{</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">position:</span><span class="s4"> </span><span class="s5">absolute</span><span class="s7">;</span><span class="s4"> </span><span class="s1">bottom:</span><span class="s4"> </span><span class="s8">30px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">right:</span><span class="s4"> </span><span class="s8">30px</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family:</span><span class="s1"> </span><span class="s10">'MedievalSharp'</span><span class="s7">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #d4af37</span><span class="s7">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">font-size:</span><span class="s4"> </span><span class="s8">24px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">opacity:</span><span class="s4"> </span><span class="s8">0.6</span><span class="s7">;</span><span class="s4"> </span><span class="s1">display:</span><span class="s4"> </span><span class="s5">flex</span><span class="s7">;</span><span class="s4"> </span><span class="s1">align-items:</span><span class="s4"> </span><span class="s5">center</span><span class="s7">;</span><span class="s4"> </span><span class="s1">gap:</span><span class="s4"> </span><span class="s8">10px</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">/* TYPOGRAPHY */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">h1</span><span class="s7">,</span><span class="s1"> </span><span class="s6">h2</span><span class="s7">,</span><span class="s1"> </span><span class="s6">h3</span><span class="s7">,</span><span class="s1"> </span><span class="s6">.slide-title</span><span class="s1"> </span><span class="s7">{</span><span class="s1"> </span><span class="s2">font-family:</span><span class="s1"> </span><span class="s10">'Fira Code'</span><span class="s7">,</span><span class="s1"> </span><span class="s5">monospace</span><span class="s7">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #58a6ff</span><span class="s7">;</span><span class="s1"> </span><span class="s2">margin:</span><span class="s1"> </span><span class="s8">0</span><span class="s7">;</span><span class="s1"> </span><span class="s7">}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">h1</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">font-family:</span><span class="s4"> </span><span class="s10">'MedievalSharp'</span><span class="s7">,</span><span class="s4"> </span><span class="s5">cursive</span><span class="s7">;</span><span class="s4"> </span><span class="s1">font-size:</span><span class="s4"> </span><span class="s8">85px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">color:</span><span class="s4"> #d4af37</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.slide-title</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">font-size:</span><span class="s4"> </span><span class="s8">36px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">margin-bottom:</span><span class="s4"> </span><span class="s8">40px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">color:</span><span class="s4"> #79c0ff</span><span class="s7">;</span><span class="s4"> </span><span class="s1">border-left:</span><span class="s4"> </span><span class="s8">5px</span><span class="s4"> </span><span class="s5">solid</span><span class="s4"> #d4af37</span><span class="s7">;</span><span class="s4"> </span><span class="s1">padding-left:</span><span class="s4"> </span><span class="s8">20px</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">p</span><span class="s7">,</span><span class="s4"> </span><span class="s6">li</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">font-size:</span><span class="s4"> </span><span class="s8">20px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">line-height:</span><span class="s4"> </span><span class="s8">1.6</span><span class="s7">;</span><span class="s4"> </span><span class="s1">color:</span><span class="s4"> #8b949e</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.keyword</span><span class="s1"> </span><span class="s7">{</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #ff7b72</span><span class="s7">;</span><span class="s1"> </span><span class="s7">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.function</span><span class="s1"> </span><span class="s7">{</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #d2a8ff</span><span class="s7">;</span><span class="s1"> </span><span class="s7">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.comment</span><span class="s1"> </span><span class="s7">{</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #6e7681</span><span class="s7">;</span><span class="s1"> </span><span class="s2">font-style:</span><span class="s1"> </span><span class="s5">italic</span><span class="s7">;</span><span class="s1"> </span><span class="s7">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.string</span><span class="s1"> </span><span class="s7">{</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #3fb950</span><span class="s7">;</span><span class="s1"> </span><span class="s7">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.content-area</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">display:</span><span class="s4"> </span><span class="s5">flex</span><span class="s7">;</span><span class="s4"> </span><span class="s1">flex-direction:</span><span class="s4"> </span><span class="s5">column</span><span class="s7">;</span><span class="s4"> </span><span class="s1">flex-grow:</span><span class="s4"> </span><span class="s8">1</span><span class="s7">;</span><span class="s4"> </span><span class="s1">justify-content:</span><span class="s4"> </span><span class="s5">center</span><span class="s7">;</span><span class="s4"> </span><span class="s1">width:</span><span class="s4"> </span><span class="s8">100%</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.two-column</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">display:</span><span class="s4"> </span><span class="s5">grid</span><span class="s7">;</span><span class="s4"> </span><span class="s1">grid-template-columns:</span><span class="s4"> </span><span class="s8">1fr</span><span class="s4"> </span><span class="s8">1fr</span><span class="s7">;</span><span class="s4"> </span><span class="s1">gap:</span><span class="s4"> </span><span class="s8">50px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">align-items:</span><span class="s4"> </span><span class="s5">center</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p6"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.image-wrapper</span><span class="s4"> </span><span class="s7">{</span><span class="s4"><span class="Apple-converted-space"> </span></span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border:</span><span class="s4"> </span><span class="s8">2px</span><span class="s4"> </span><span class="s5">solid</span><span class="s4"> #30363d</span><span class="s7">;</span><span class="s4"> </span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s8">12px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">overflow:</span><span class="s4"> </span><span class="s5">hidden</span><span class="s7">;</span><span class="s4"> </span><span class="s1">height:</span><span class="s4"> </span><span class="s8">400px</span><span class="s7">;</span><span class="s4"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> #0d1117</span><span class="s7">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.image-wrapper</span><span class="s4"> </span><span class="s6">img</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">width:</span><span class="s4"> </span><span class="s8">100%</span><span class="s7">;</span><span class="s4"> </span><span class="s1">height:</span><span class="s4"> </span><span class="s8">100%</span><span class="s7">;</span><span class="s4"> </span><span class="s1">object-fit:</span><span class="s4"> </span><span class="s5">cover</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.tile</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">flex:</span><span class="s4"> </span><span class="s8">1</span><span class="s7">;</span><span class="s4"> </span><span class="s1">background:</span><span class="s4"> #161b22</span><span class="s7">;</span><span class="s4"> </span><span class="s1">padding:</span><span class="s4"> </span><span class="s8">30px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s8">12px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">border:</span><span class="s4"> </span><span class="s8">1px</span><span class="s4"> </span><span class="s5">solid</span><span class="s4"> #30363d</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.tile</span><span class="s4"> </span><span class="s6">h3</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">font-family:</span><span class="s4"> </span><span class="s10">'MedievalSharp'</span><span class="s7">;</span><span class="s4"> </span><span class="s1">color:</span><span class="s4"> #d4af37</span><span class="s7">;</span><span class="s4"> </span><span class="s1">margin-bottom:</span><span class="s4"> </span><span class="s8">15px</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s6">.big-number</span><span class="s4"> </span><span class="s7">{</span><span class="s4"> </span><span class="s1">font-size:</span><span class="s4"> </span><span class="s8">120px</span><span class="s7">;</span><span class="s4"> </span><span class="s1">font-family:</span><span class="s4"> </span><span class="s10">'Fira Code'</span><span class="s7">;</span><span class="s4"> </span><span class="s1">color:</span><span class="s4"> #d4af37</span><span class="s7">;</span><span class="s4"> </span><span class="s1">line-height:</span><span class="s4"> </span><span class="s8">1</span><span class="s7">;</span><span class="s4"> </span><span class="s7">}</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 1: Title --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"1"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"text-align: center;"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"comment"</span><span class="s3">&gt;</span><span class="s1">// summoning legendary_profile.sh...</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">h1</span><span class="s3">&gt;</span><span class="s1">Edward Hein</span><span class="s3">&lt;/</span><span class="s6">h1</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"font-family: 'Fira Code'; color: #d4af37; font-size: 24px;"</span><span class="s3">&gt;</span><span class="s4">[ Technomancer • Middle School Build • Level 13 ]</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 1</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 2: whoami --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"2"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">character_init()</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"two-column"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"keyword"</span><span class="s3">&gt;</span><span class="s1">const</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1"> adventurer = {</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">style</span><span class="s3">=</span><span class="s5">"padding-left: 20px;"</span><span class="s3">&gt;</span><span class="s1">origin: </span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"string"</span><span class="s3">&gt;</span><span class="s1">"Middle School"</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1">,</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">style</span><span class="s3">=</span><span class="s5">"padding-left: 20px;"</span><span class="s3">&gt;</span><span class="s1">alignment: </span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"string"</span><span class="s3">&gt;</span><span class="s1">"Chaotic Logical"</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1">,</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">style</span><span class="s3">=</span><span class="s5">"padding-left: 20px;"</span><span class="s3">&gt;</span><span class="s1">mana: </span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"string"</span><span class="s3">&gt;</span><span class="s1">"Caffeine &amp; Redstone"</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">};</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">style</span><span class="s3">=</span><span class="s5">"margin-top: 20px;"</span><span class="s3">&gt;</span><span class="s1">Optimizing my stats to transition from the physical courts of basketball to the digital bastions of server rooms.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"image-wrapper"</span><span class="s3">&gt;&lt;</span><span class="s6">img</span><span class="s4"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://images.unsplash.com/photo-1519074063912-ad2fe3f51b6d?w=800"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 2</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 3: Realms --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"3"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">map_of_realms.md</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"display: flex; gap: 20px;"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Mechanical</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">Robotics &amp; Hardware</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Virtual</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">Minecraft &amp; Servers</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Imaginary</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">D&amp;D Campaigns</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 3</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 4: Redstone 1 --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"4"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">redstone_ritual_pt1</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"two-column"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"image-wrapper"</span><span class="s3">&gt;&lt;</span><span class="s6">img</span><span class="s4"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">The Logical Circuit</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">Minecraft isn't a game; it's a visual programming language. I build automated farms that run on 0-tick logic and hopper-clock timing.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 4</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 5: Redstone 2 --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"5"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">redstone_ritual_pt2</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"comment"</span><span class="s3">&gt;</span><span class="s1">/* Current Project: Automatic Item Sorting Hub */</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"tile"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"margin-top: 20px;"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">• Multi-Item Categorization</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span><span class="s1">• Overflow Disposal Logic</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span><span class="s1">• Water-Stream Transport Optimization</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 5</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 6: Robotics 1 --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"6"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">hardware_alchemy_pt1</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"two-column"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Building the Golem</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">From CAD design to physical assembly. Robotics is where my code gains a physical body to interact with the world.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"image-wrapper"</span><span class="s3">&gt;&lt;</span><span class="s6">img</span><span class="s4"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 6</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 7: Robotics 2 --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"7"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">hardware_alchemy_pt2</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"keyword"</span><span class="s3">&gt;</span><span class="s1">void</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1"> </span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"function"</span><span class="s3">&gt;</span><span class="s1">calibrationLoop</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1">() {</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>&amp;nbsp;&amp;nbsp;checkSensors();</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>&amp;nbsp;&amp;nbsp;adjustTorque();</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>&amp;nbsp;&amp;nbsp;</span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"comment"</span><span class="s3">&gt;</span><span class="s1">// Iterating until perfection.</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>}</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 7</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 8: D&amp;D Campaign --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"8"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">the_lore_engine</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"two-column"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"image-wrapper"</span><span class="s3">&gt;&lt;</span><span class="s6">img</span><span class="s4"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://images.unsplash.com/photo-1614811514111-8af00f7514ef?w=800"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Strategic Storytelling</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">I apply the same logic to D&amp;D as I do to coding. Every campaign is a complex simulation of choice and consequence.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 8</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 9: The NAT 20 --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"9"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"text-align: center;"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"big-number"</span><span class="s3">&gt;</span><span class="s1">NAT 20</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">style</span><span class="s3">=</span><span class="s5">"color: #3fb950;"</span><span class="s3">&gt;</span><span class="s1">CRITICAL SUCCESS</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">When the code compiles on the first try.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 9</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 10: The Music --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"10"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">ambient_hymns</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"two-column"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Alex Warren - "Ordinary"</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">The soundtrack for the grind. High-fidelity audio for low-level programming sessions.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"image-wrapper"</span><span class="s3">&gt;&lt;</span><span class="s6">img</span><span class="s4"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://images.unsplash.com/photo-1514525253361-bee8a19740c1?w=800"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 10</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 11: Stats --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"11"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">character_stats.xml</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">STR: [|||||&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;] 5</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>INT: [||||||||||||] 12</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>WIS: [||||||||||&amp;nbsp;&amp;nbsp;] 10</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>DEX: [||||||||&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;] 8</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 11</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 12: School Survival --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"12"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">middle_school_main()</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"keyword"</span><span class="s3">&gt;</span><span class="s1">try</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1"> {</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&amp;nbsp;&amp;nbsp;navigateHallways();</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&amp;nbsp;&amp;nbsp;finishHomework();</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>} </span><span class="s3">&lt;</span><span class="s6">span</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"keyword"</span><span class="s3">&gt;</span><span class="s1">catch</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1"> (SocialAwkwardness e) {</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>&amp;nbsp;&amp;nbsp;returnToRoboticsLab();</span><span class="s3">&lt;</span><span class="s6">br</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>}</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 12</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 13: Teamwork --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"13"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">the_party_party</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"two-column"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">D&amp;D Crew</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">Strategy and snacks.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Robotics Team</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">Building the future.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 13</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 14: Vision 1 --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"14"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">future_build_specs</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">Objective: Master of Systems</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">I want to bridge the gap between high-fantasy storytelling and real-world engineering. Why build a robot when you can build a familiar?</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 14</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 15: Tech Stack --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"15"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">arcane_tools.sh</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span><span class="s1">VS Code</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span><span class="s1">Arduino</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span><span class="s1">Discord</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span><span class="s1">Java</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span><span class="s1">Redstone</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"tile"</span><span class="s3">&gt;</span><span class="s1">D&amp;D Beyond</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 15</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 16: Hobbies --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"16"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">side_quests.exe</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">ul</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">li</span><span class="s3">&gt;</span><span class="s1">Miniature Painting (Dexterity check!)</span><span class="s3">&lt;/</span><span class="s6">li</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">li</span><span class="s3">&gt;</span><span class="s1">Server Management (Charisma check?)</span><span class="s3">&lt;/</span><span class="s6">li</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">li</span><span class="s3">&gt;</span><span class="s1">Logic Puzzles (Intelligence check!)</span><span class="s3">&lt;/</span><span class="s6">li</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">ul</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 16</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 17: Quote --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"17"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"text-align: center;"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">blockquote</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"font-family: 'MedievalSharp'; font-size: 32px; color: #d4af37;"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>"Magic is just technology we haven't programmed yet."</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s1">blockquote</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 17</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 18: Collaboration --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"18"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">multiplayer_mode</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">I thrive in collaborative builds. Whether it's a 4-player co-op Minecraft base or a 5-member D&amp;D party, the best results come from shared logic.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 18</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 19: Achievement --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"19"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"slide-title"</span><span class="s3">&gt;</span><span class="s1">achievement_unlocked</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"text-align: center;"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-trophy"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"font-size: 100px; color: #d4af37; margin-bottom: 20px;"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s3">&gt;</span><span class="s1">"Level 13 Reached"</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s3">&gt;</span><span class="s1">Unlocked: High-school prep, advanced logic, and epic campaigns.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 19</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p5"><span class="s1">&lt;!-- Slide 20: Exit --&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"slide-container"</span><span class="s4"> </span><span class="s2">data-page</span><span class="s3">=</span><span class="s1">"20"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"content-area"</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"text-align: center;"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">h1</span><span class="s3">&gt;</span><span class="s1">Quest Complete</span><span class="s3">&lt;/</span><span class="s6">h1</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"comment"</span><span class="s3">&gt;</span><span class="s1">// session_end.sh</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s4"> </span><span class="s2">style</span><span class="s3">=</span><span class="s1">"font-family: 'Fira Code'; margin-top: 40px;"</span><span class="s3">&gt;</span><span class="s4">[ Save &amp; Quit ]</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"d20-marker"</span><span class="s3">&gt;&lt;</span><span class="s6">i</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fa-solid fa-dice-d20"</span><span class="s3">&gt;&lt;/</span><span class="s6">i</span><span class="s3">&gt;</span><span class="s4"> 20</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">div</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s9"></span><br></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">html</span><span class="s3">&gt;</span></p>
+
+<div id="presentation-root">
+    <div class="terminal-bar">
+        <span>ᚱᚢᚾ — edward_hein.sh</span>
+        <span id="page-counter">PAGE_01 / 20</span>
+    </div>
+
+    <!-- Slide 1 -->
+    <div class="slide active" id="slide-1">
+        <div class="content-area" style="text-align: center;">
+            <p class="comment">// summoning legendary_profile.sh...</p>
+            <h1>Edward Hein</h1>
+            <p style="font-family: 'Fira Code'; color: var(--gold); font-size: 24px;">[ Technomancer • Level 13 ]</p>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 1</div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide" id="slide-2">
+        <h2 class="slide-title">character_init()</h2>
+        <div class="two-column">
+            <div>
+                <p><span class="keyword">const</span> adventurer = {</p>
+                <p style="padding-left: 20px;">origin: <span class="string">"Middle School"</span>,</p>
+                <p style="padding-left: 20px;">alignment: <span class="string">"Chaotic Logical"</span></p>
+                <p>};</p>
+                <p>Transitioning from the basketball courts to the digital bastions.</p>
+            </div>
+            <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1519074063912-ad2fe3f51b6d?w=800"></div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 2</div>
+    </div>
+
+    <!-- Slide 3: Realms -->
+    <div class="slide" id="slide-3">
+        <h2 class="slide-title">map_of_realms.md</h2>
+        <div class="content-area">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div class="tile"><h3>Mechanical</h3><p>Robotics & Hardware</p></div>
+                <div class="tile"><h3>Virtual</h3><p>Minecraft & Servers</p></div>
+                <div class="tile"><h3>Imaginary</h3><p>D&D Campaigns</p></div>
+            </div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 3</div>
+    </div>
+
+    <!-- Slide 4: Redstone 1 -->
+    <div class="slide" id="slide-4">
+        <h2 class="slide-title">redstone_ritual_pt1</h2>
+        <div class="two-column">
+            <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800"></div>
+            <div>
+                <h3>The Logical Circuit</h3>
+                <p>Minecraft isn't a game; it's a visual programming language. I build automated farms that run on 0-tick logic.</p>
+            </div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 4</div>
+    </div>
+
+    <!-- Slide 5: Redstone 2 -->
+    <div class="slide" id="slide-5">
+        <h2 class="slide-title">redstone_ritual_pt2</h2>
+        <div class="content-area">
+            <p class="comment">/* Current Project: Automatic Sorting Hub */</p>
+            <div class="tile" style="margin-top: 20px;">
+                <p>• Multi-Item Categorization<br>• Overflow Disposal Logic<br>• Water-Stream Transport Optimization</p>
+            </div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 5</div>
+    </div>
+
+    <!-- Slide 6: Robotics -->
+    <div class="slide" id="slide-6">
+        <h2 class="slide-title">hardware_alchemy_pt1</h2>
+        <div class="two-column">
+            <div>
+                <h3>Building the Golem</h3>
+                <p>From CAD design to physical assembly. Robotics is where my code gains a physical body.</p>
+            </div>
+            <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800"></div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 6</div>
+    </div>
+
+    <!-- Slide 7: Code Calibration -->
+    <div class="slide" id="slide-7">
+        <h2 class="slide-title">hardware_alchemy_pt2</h2>
+        <div class="content-area">
+            <div class="tile">
+                <p><span class="keyword">void</span> <span class="function">calibrationLoop</span>() {<br>
+                &nbsp;&nbsp;checkSensors();<br>
+                &nbsp;&nbsp;adjustTorque();<br>
+                &nbsp;&nbsp;<span class="comment">// Iterating until perfection.</span><br>
+                }</p>
+            </div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 7</div>
+    </div>
+
+    <!-- Slide 8: D&D -->
+    <div class="slide" id="slide-8">
+        <h2 class="slide-title">the_lore_engine</h2>
+        <div class="two-column">
+            <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1614811514111-8af00f7514ef?w=800"></div>
+            <div>
+                <h3>Strategic Storytelling</h3>
+                <p>Every D&D campaign is a complex simulation of choice and consequence.</p>
+            </div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 8</div>
+    </div>
+
+    <!-- Slide 9: Nat 20 -->
+    <div class="slide" id="slide-9">
+        <div class="content-area" style="text-align: center;">
+            <div class="big-number">NAT 20</div>
+            <h2 style="color: #3fb950;">CRITICAL SUCCESS</h2>
+            <p>When the code compiles on the first try.</p>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 9</div>
+    </div>
+
+    <!-- Slide 10: Music -->
+    <div class="slide" id="slide-10">
+        <h2 class="slide-title">ambient_hymns</h2>
+        <div class="two-column">
+            <div>
+                <h3>Alex Warren - "Ordinary"</h3>
+                <p>The soundtrack for the grind. High-fidelity audio for low-level sessions.</p>
+            </div>
+            <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1514525253361-bee8a19740c1?w=800"></div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 10</div>
+    </div>
+
+    <!-- Slide 11: Stats -->
+    <div class="slide" id="slide-11">
+        <h2 class="slide-title">character_stats.xml</h2>
+        <div class="content-area">
+            <div class="tile">
+                <p>STR: [|||||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;] 5<br>
+                INT: [||||||||||||] 12<br>
+                WIS: [||||||||||&nbsp;&nbsp;] 10<br>
+                DEX: [||||||||&nbsp;&nbsp;&nbsp;&nbsp;] 8</p>
+            </div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 11</div>
+    </div>
+
+    <!-- Slide 12: School -->
+    <div class="slide" id="slide-12">
+        <h2 class="slide-title">middle_school_main()</h2>
+        <div class="content-area">
+            <p><span class="keyword">try</span> {<br>
+            &nbsp;&nbsp;navigateHallways();<br>
+            &nbsp;&nbsp;finishHomework();<br>
+            } <span class="keyword">catch</span> (SocialAwkwardness e) {<br>
+            &nbsp;&nbsp;returnToRoboticsLab();<br>
+            }</p>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 12</div>
+    </div>
+
+    <!-- Slide 13: Teams -->
+    <div class="slide" id="slide-13">
+        <h2 class="slide-title">the_party_party</h2>
+        <div class="two-column">
+            <div class="tile"><h3>D&D Crew</h3><p>Strategy and snacks.</p></div>
+            <div class="tile"><h3>Robotics Team</h3><p>Building the future.</p></div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 13</div>
+    </div>
+
+    <!-- Slide 14: Vision -->
+    <div class="slide" id="slide-14">
+        <h2 class="slide-title">future_build_specs</h2>
+        <div class="content-area">
+            <h3>Objective: Master of Systems</h3>
+            <p>Bridging high-fantasy storytelling and real-world engineering.</p>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 14</div>
+    </div>
+
+    <!-- Slide 15: Tools -->
+    <div class="slide" id="slide-15">
+        <h2 class="slide-title">arcane_tools.sh</h2>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <div class="tile">VS Code</div>
+            <div class="tile">Arduino</div>
+            <div class="tile">Discord</div>
+            <div class="tile">Java</div>
+            <div class="tile">Redstone</div>
+            <div class="tile">D&D Beyond</div>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 15</div>
+    </div>
+
+    <!-- Slide 16: Hobbies -->
+    <div class="slide" id="slide-16">
+        <h2 class="slide-title">side_quests.exe</h2>
+        <div class="content-area">
+            <ul>
+                <li>Miniature Painting (Dexterity check!)</li>
+                <li>Server Management (Charisma check?)</li>
+                <li>Logic Puzzles (Intelligence check!)</li>
+            </ul>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 16</div>
+    </div>
+
+    <!-- Slide 17: Quote -->
+    <div class="slide" id="slide-17">
+        <div class="content-area" style="text-align: center;">
+            <blockquote style="font-family: 'MedievalSharp'; font-size: 32px; color: var(--gold);">
+                "Magic is just technology we haven't programmed yet."
+            </blockquote>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 17</div>
+    </div>
+
+    <!-- Slide 18: Collaboration -->
+    <div class="slide" id="slide-18">
+        <h2 class="slide-title">multiplayer_mode</h2>
+        <p>I thrive in collaborative builds. The best results come from shared logic and teamwork.</p>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 18</div>
+    </div>
+
+    <!-- Slide 19: Achievement -->
+    <div class="slide" id="slide-19">
+        <h2 class="slide-title">achievement_unlocked</h2>
+        <div class="content-area" style="text-align: center;">
+            <i class="fa-solid fa-trophy" style="font-size: 100px; color: var(--gold); margin-bottom: 20px;"></i>
+            <h3>"Level 13 Reached"</h3>
+            <p>Unlocked: High-school prep and advanced logic.</p>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 19</div>
+    </div>
+
+    <!-- Slide 20: Exit -->
+    <div class="slide" id="slide-20">
+        <div class="content-area" style="text-align: center;">
+            <h1>Quest Complete</h1>
+            <p class="comment">// session_end.sh</p>
+            <p style="font-family: 'Fira Code'; margin-top: 40px; color: var(--gold); cursor: pointer;" onclick="goToSlide(1)">[ Restart Simulation ]</p>
+        </div>
+        <div class="d20-marker"><i class="fa-solid fa-dice-d20"></i> 20</div>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">PREV</button>
+        <button class="nav-btn" onclick="nextSlide()">NEXT</button>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 20;
+
+    function updateDisplay() {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(`slide-${currentSlide}`).classList.add('active');
+        document.getElementById('page-counter').innerText = `PAGE_${currentSlide.toString().padStart(2, '0')} / ${totalSlides}`;
+    }
+
+    function nextSlide() {
+        if (currentSlide < totalSlides) currentSlide++;
+        updateDisplay();
+    }
+
+    function prevSlide() {
+        if (currentSlide > 1) currentSlide--;
+        updateDisplay();
+    }
+
+    function goToSlide(n) {
+        currentSlide = n;
+        updateDisplay();
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") nextSlide();
+        if (e.key === "ArrowLeft") prevSlide();
+    });
+</script>
+
 </body>
 </html>
